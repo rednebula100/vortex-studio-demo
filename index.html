@@ -1,4 +1,38 @@
-<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090e18"><link rel="icon" href="data:,"><title>VORTEX // STUDIO — MANTETEKI TAKATA</title>  <script type="module" crossorigin src="./assets/index-DQGmWxXG.js?rev=20261116-repeat-fx"></script>
+<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090e18"><link rel="icon" href="data:,"><title>VORTEX // STUDIO — MANTETEKI TAKATA</title>  <script type="module">
+// Legacy compiled demo bundle already saves edits to IndexedDB. Before importing
+// it, recover the most recently persisted project even after the browser/tab was closed.
+async function restoreLastSavedProject(){
+ try{
+  if(sessionStorage.getItem('vortex-pending')||sessionStorage.getItem('vortex-current'))return;
+  if(typeof indexedDB.databases!=='function')return;
+  const databases=await indexedDB.databases();
+  if(!databases.some(d=>d.name==='vortex-private-creator'))return;
+  const db=await new Promise((resolve,reject)=>{
+   const request=indexedDB.open('vortex-private-creator');
+   request.onsuccess=()=>resolve(request.result);
+   request.onerror=()=>reject(request.error);
+  });
+  try{
+   if(!db.objectStoreNames.contains('projects'))return;
+   const latest=await new Promise((resolve,reject)=>{
+    const tx=db.transaction('projects','readonly');
+    const query=tx.objectStore('projects').openCursor();
+    let winner=null;
+    query.onsuccess=()=>{
+     const row=query.result;
+     if(!row){resolve(winner);return;}
+     if(!winner||Number(row.value?.time||0)>winner.time)winner={id:String(row.key),time:Number(row.value?.time||0)};
+     row.continue();
+    };
+    query.onerror=()=>reject(query.error);
+   });
+   if(latest?.id)sessionStorage.setItem('vortex-current',latest.id);
+  }finally{db.close();}
+ }catch(error){console.warn('VORTEX autosave recovery is unavailable',error);}
+}
+await restoreLastSavedProject();
+await import('./assets/index-DQGmWxXG.js?rev=20261116-autosave-recovery');
+</script>
   <link rel="stylesheet" crossorigin href="./assets/index-Bl8tUkkW.css">
 
 <style id="vortex-inline-cinema">
