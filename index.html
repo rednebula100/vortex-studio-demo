@@ -1,8 +1,55 @@
 <!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090e18"><link rel="icon" href="data:,"><title>VORTEX // STUDIO — MANTETEKI TAKATA</title>  <script type="module" crossorigin src="./assets/index-DQGmWxXG.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-Bl8tUkkW.css">
+
+<style id="vortex-inline-cinema">
+.cinema-controls{display:none;position:absolute;z-index:50;bottom:16px;left:50%;transform:translateX(-50%);width:min(88%,840px);padding:10px 12px;align-items:center;gap:12px;border:1px solid #ffffff35;border-radius:12px;background:#06101cbb;backdrop-filter:blur(16px);box-shadow:0 12px 42px #0008}
+.cinema-controls button{color:#ecf6ff;background:#ffffff16;border:1px solid #ffffff33;min-width:37px;padding:7px 10px}
+.cinema-controls button:hover{background:#ffffff30}
+.cinema-controls output{color:#e1ecff;font:12px/1.2 Consolas,monospace;white-space:nowrap}
+.cinema-controls input[type="range"]{flex:1;accent-color:#9bdcff;min-width:0;cursor:pointer}
+#stage:fullscreen,#stage:-webkit-full-screen{width:100vw!important;height:100dvh!important;max-width:none!important;max-height:none!important;background:#000!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
+#stage:fullscreen canvas#visual,#stage:-webkit-full-screen canvas#visual{width:100%!important;height:100%!important;object-fit:contain!important}
+#stage:fullscreen .cinema-controls,#stage:-webkit-full-screen .cinema-controls{display:flex}
+#stage:fullscreen #safeArea,#stage:-webkit-full-screen #safeArea{display:none!important}
+.demo-tools{display:none!important}
+</style>
+<script id="vortex-inline-cinema-js">
+(function(){
+  // Keep old links working, but the default editor is now the only page mode.
+  const u=new URL(location.href);
+  if(u.searchParams.has('demo')){u.searchParams.delete('demo');history.replaceState(history.state,'',u.pathname+u.search+u.hash);}
+  document.addEventListener('DOMContentLoaded',()=>{
+    const stage=document.getElementById('stage'),audio=document.getElementById('audio');
+    const enterButtons=['previewFull','fullscreen'].map(id=>document.getElementById(id)).filter(Boolean);
+    const play=document.getElementById('cinemaPlay'),seek=document.getElementById('cinemaSeek'),time=document.getElementById('cinemaTime'),exit=document.getElementById('cinemaExit');
+    const fmt=t=>{t=Math.max(0,Math.floor(Number.isFinite(t)?t:0));return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')};
+    const enter=()=>{if(document.fullscreenElement===stage)document.exitFullscreen();else stage.requestFullscreen().catch(err=>{const toast=document.getElementById('toast');if(toast){toast.hidden=false;toast.textContent='전체화면 오류: '+err.message;}})};
+    for(const b of enterButtons){
+      // Built app's existing fullscreen action targets the entire editor; intercept it.
+      b.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();enter()},true);
+    }
+    exit.addEventListener('click',()=>document.exitFullscreen().catch(()=>{}));
+    play.addEventListener('click',()=>{if(audio.paused)audio.play().catch(()=>{});else audio.pause()});
+    let sliding=false;
+    seek.addEventListener('pointerdown',()=>sliding=true);
+    seek.addEventListener('input',()=>{if(Number.isFinite(audio.duration))audio.currentTime=Number(seek.value)/1000*audio.duration;});
+    seek.addEventListener('change',()=>sliding=false);
+    window.addEventListener('pointerup',()=>sliding=false);
+    const refresh=()=>{if(document.fullscreenElement===stage){
+      play.textContent=audio.paused?'▶':'Ⅱ';
+      time.textContent=fmt(audio.currentTime)+' / '+fmt(audio.duration);
+      if(!sliding&&audio.duration)seek.value=String(Math.round(1000*audio.currentTime/audio.duration));
+    }};
+    audio.addEventListener('play',refresh);audio.addEventListener('pause',refresh);
+    document.addEventListener('fullscreenchange',refresh);
+    const loop=()=>{refresh();requestAnimationFrame(loop)};loop();
+  });
+})();
+</script>
 </head><body><div id="app">
-<header class="header"><a class="brand" href="./"><span>VORTEX <i>//</i> STUDIO</span></a><div class="project-title">MANTETEKI TAKATA <output id="saveState" class="chip">로컬 프로젝트</output></div><div class="header-actions"><button id="shortcutHelp" title="편집 단축키" aria-label="편집 단축키">⌨</button><button id="undo" title="실행 취소 (Ctrl+Z)">↶</button><button id="redo" title="다시 실행 (Ctrl+Shift+Z)">↷</button><button id="saveProject">프로젝트 저장</button><a class="button" href="?demo=1">↗ 데모</a><button id="exportTab" class="primary">내보내기 ↗</button></div></header>
-<main class="workspace" id="workspace"><section class="viewer"><div class="viewer-top"><span><i class="live-dot"></i> 미리보기 <b id="lookReadout">HYBRID</b></span><div class="viewer-actions"><button id="quickStamp" title="선택한 가사를 재생 위치에 맞추기 (T)">타임 찍기 T</button><button id="quickLoop" title="선택한 가사 구간 반복">구절 반복</button><button id="layoutReset" title="미리보기와 편집 패널의 기본 크기로 복원">배치 초기화</button></div></div><div class="stage" id="stage"><canvas id="visual" width="1920" height="1080" aria-label="음악에 반응하는 가사 영상"></canvas><div id="safeArea" hidden></div><div class="loading" id="loading">VORTEX<span>오리지널 음원과 장면 준비 중…</span></div></div><div class="viewer-bottom"><span>16:9 <b>1920 × 1080</b></span><span id="featureReadout">PRECOMPUTED AUDIO / EXACT MEDIA TIME</span><button id="fullscreen" title="전체 화면">⛶</button></div></section>
+<header class="header"><a class="brand" href="./"><span>VORTEX <i>//</i> STUDIO</span></a><div class="project-title">MANTETEKI TAKATA <output id="saveState" class="chip">로컬 프로젝트</output></div><div class="header-actions"><button id="shortcutHelp" title="편집 단축키" aria-label="편집 단축키">⌨</button><button id="undo" title="실행 취소 (Ctrl+Z)">↶</button><button id="redo" title="다시 실행 (Ctrl+Shift+Z)">↷</button><button id="saveProject">프로젝트 저장</button><button type="button" id="previewFull" title="영상만 전체 화면으로 보기">⛶ 영상 전체화면</button><button id="exportTab" class="primary">내보내기 ↗</button></div></header>
+<main class="workspace" id="workspace"><section class="viewer"><div class="viewer-top"><span><i class="live-dot"></i> 미리보기 <b id="lookReadout">HYBRID</b></span><div class="viewer-actions"><button id="quickStamp" title="선택한 가사를 재생 위치에 맞추기 (T)">타임 찍기 T</button><button id="quickLoop" title="선택한 가사 구간 반복">구절 반복</button><button id="layoutReset" title="미리보기와 편집 패널의 기본 크기로 복원">배치 초기화</button></div></div><div class="stage" id="stage"><div class="cinema-controls" id="cinemaControls" aria-label="전체 화면 미리보기 조작">
+<button type="button" id="cinemaPlay" title="재생 또는 일시정지">▶</button><output id="cinemaTime">00:00 / 00:00</output><input id="cinemaSeek" type="range" min="0" max="1000" value="0" aria-label="전체 화면 재생 위치"><button id="cinemaExit" type="button" title="전체 화면 나가기">✕</button></div><canvas id="visual" width="1920" height="1080" aria-label="음악에 반응하는 가사 영상"></canvas><div id="safeArea" hidden></div><div class="loading" id="loading">VORTEX<span>오리지널 음원과 장면 준비 중…</span></div></div><div class="viewer-bottom"><span>16:9 <b>1920 × 1080</b></span><span id="featureReadout">PRECOMPUTED AUDIO / EXACT MEDIA TIME</span><button id="fullscreen" title="전체 화면">⛶</button></div></section>
 <div aria-controls="inspector" id="workspaceDivider" class="layout-divider vertical" role="separator" aria-label="편집 패널 폭 조절" aria-orientation="vertical" tabindex="0"></div><aside class="inspector" id="inspector"><nav class="tabs" aria-label="편집 패널"><button data-tab="lyrics" class="active">가사</button><button data-tab="look">연출·FX</button><button data-tab="source">프로젝트</button><button data-tab="export">출력</button></nav>
 <section id="pane-lyrics" class="pane lyrics-pane active"><div class="section-heading"><span class="eyebrow">LYRICS</span><span id="cueCount">CUES</span></div><h2>가사 · 싱크 편집</h2><p class="help">번호를 눌러 듣고, 시작 시각과 가사를 직접 수정하세요.</p><details><summary>구절 검토</summary><div class="row"><button id="cueLoop">구절 반복</button><button id="splitCue">재생점 분할</button><button id="mergeCue">다음 줄 병합</button></div>
 <div class="row"><button id="reviewCue">검토 완료</button><button id="exportSrt">SRT 저장</button></div><output id="cueMeta" class="mini-note"></output><canvas id="vocalScope" width="600" height="64" aria-label="선택한 구절의 주파수 분포"></canvas></details>
