@@ -1,93 +1,22 @@
-<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090e18"><link rel="icon" href="data:,"><title>VORTEX // STUDIO — MANTETEKI TAKATA</title>  <script type="module">
-// Legacy compiled demo bundle already saves edits to IndexedDB. Before importing
-// it, recover the most recently persisted project even after the browser/tab was closed.
-async function restoreLastSavedProject(){
- try{
-  if(sessionStorage.getItem('vortex-pending')||sessionStorage.getItem('vortex-current'))return;
-  if(typeof indexedDB.databases!=='function')return;
-  const databases=await indexedDB.databases();
-  if(!databases.some(d=>d.name==='vortex-private-creator'))return;
-  const db=await new Promise((resolve,reject)=>{
-   const request=indexedDB.open('vortex-private-creator');
-   request.onsuccess=()=>resolve(request.result);
-   request.onerror=()=>reject(request.error);
-  });
-  try{
-   if(!db.objectStoreNames.contains('projects'))return;
-   const latest=await new Promise((resolve,reject)=>{
-    const tx=db.transaction('projects','readonly');
-    const query=tx.objectStore('projects').openCursor();
-    let winner=null;
-    query.onsuccess=()=>{
-     const row=query.result;
-     if(!row){resolve(winner);return;}
-     if(!winner||Number(row.value?.time||0)>winner.time)winner={id:String(row.key),time:Number(row.value?.time||0)};
-     row.continue();
-    };
-    query.onerror=()=>reject(query.error);
-   });
-   if(latest?.id)sessionStorage.setItem('vortex-current',latest.id);
-  }finally{db.close();}
- }catch(error){console.warn('VORTEX autosave recovery is unavailable',error);}
-}
-await restoreLastSavedProject();
-await import('./assets/index-DQGmWxXG.js?rev=20261116-autosave-recovery');
-</script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Bl8tUkkW.css">
-
-<style id="vortex-inline-cinema">
-.cinema-controls{display:none;position:absolute;z-index:50;bottom:16px;left:50%;transform:translateX(-50%);width:min(88%,840px);padding:10px 12px;align-items:center;gap:12px;border:1px solid #ffffff35;border-radius:12px;background:#06101cbb;backdrop-filter:blur(16px);box-shadow:0 12px 42px #0008}
-.cinema-controls button{color:#ecf6ff;background:#ffffff16;border:1px solid #ffffff33;min-width:37px;padding:7px 10px}
-.cinema-controls button:hover{background:#ffffff30}
-.cinema-controls output{color:#e1ecff;font:12px/1.2 Consolas,monospace;white-space:nowrap}
-.cinema-controls input[type="range"]{flex:1;accent-color:#9bdcff;min-width:0;cursor:pointer}
-#stage:fullscreen,#stage:-webkit-full-screen{width:100vw!important;height:100dvh!important;max-width:none!important;max-height:none!important;background:#000!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
-#stage:fullscreen canvas#visual,#stage:-webkit-full-screen canvas#visual{width:100%!important;height:100%!important;object-fit:contain!important}
-#stage:fullscreen .cinema-controls,#stage:-webkit-full-screen .cinema-controls{display:flex}
-#stage:fullscreen #safeArea,#stage:-webkit-full-screen #safeArea{display:none!important}
-.demo-tools{display:none!important}
-</style>
-<script id="vortex-inline-cinema-js">
-(function(){
-  // Keep old links working, but the default editor is now the only page mode.
-  const u=new URL(location.href);
-  if(u.searchParams.has('demo')){u.searchParams.delete('demo');history.replaceState(history.state,'',u.pathname+u.search+u.hash);}
-  document.addEventListener('DOMContentLoaded',()=>{
-    const stage=document.getElementById('stage'),audio=document.getElementById('audio');
-    const enterButtons=['previewFull','fullscreen'].map(id=>document.getElementById(id)).filter(Boolean);
-    const play=document.getElementById('cinemaPlay'),seek=document.getElementById('cinemaSeek'),time=document.getElementById('cinemaTime'),exit=document.getElementById('cinemaExit');
-    const fmt=t=>{t=Math.max(0,Math.floor(Number.isFinite(t)?t:0));return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')};
-    const enter=()=>{if(document.fullscreenElement===stage)document.exitFullscreen();else stage.requestFullscreen().catch(err=>{const toast=document.getElementById('toast');if(toast){toast.hidden=false;toast.textContent='전체화면 오류: '+err.message;}})};
-    for(const b of enterButtons){
-      // Built app's existing fullscreen action targets the entire editor; intercept it.
-      b.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();enter()},true);
-    }
-    exit.addEventListener('click',()=>document.exitFullscreen().catch(()=>{}));
-    play.addEventListener('click',()=>{if(audio.paused)audio.play().catch(()=>{});else audio.pause()});
-    let sliding=false;
-    seek.addEventListener('pointerdown',()=>sliding=true);
-    seek.addEventListener('input',()=>{if(Number.isFinite(audio.duration))audio.currentTime=Number(seek.value)/1000*audio.duration;});
-    seek.addEventListener('change',()=>sliding=false);
-    window.addEventListener('pointerup',()=>sliding=false);
-    const refresh=()=>{if(document.fullscreenElement===stage){
-      play.textContent=audio.paused?'▶':'Ⅱ';
-      time.textContent=fmt(audio.currentTime)+' / '+fmt(audio.duration);
-      if(!sliding&&audio.duration)seek.value=String(Math.round(1000*audio.currentTime/audio.duration));
-    }};
-    audio.addEventListener('play',refresh);audio.addEventListener('pause',refresh);
-    document.addEventListener('fullscreenchange',refresh);
-    const loop=()=>{refresh();requestAnimationFrame(loop)};loop();
-  });
-})();
-</script>
+<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090e18"><link rel="icon" href="data:,"><title>VORTEX // STUDIO — MANTETEKI TAKATA</title>  <script type="module" crossorigin src="./assets/index-BDJ5ap3V.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Cg14-MU2.css">
 </head><body><div id="app">
 <header class="header"><a class="brand" href="./"><span>VORTEX <i>//</i> STUDIO</span></a><div class="project-title">MANTETEKI TAKATA <output id="saveState" class="chip">로컬 프로젝트</output></div><div class="header-actions"><button id="shortcutHelp" title="편집 단축키" aria-label="편집 단축키">⌨</button><button id="undo" title="실행 취소 (Ctrl+Z)">↶</button><button id="redo" title="다시 실행 (Ctrl+Shift+Z)">↷</button><button id="saveProject">프로젝트 저장</button><button type="button" id="previewFull" title="영상만 전체 화면으로 보기">⛶ 영상 전체화면</button><button id="exportTab" class="primary">내보내기 ↗</button></div></header>
-<main class="workspace" id="workspace"><section class="viewer"><div class="viewer-top"><span><i class="live-dot"></i> 미리보기 <b id="lookReadout">HYBRID</b></span><div class="viewer-actions"><button id="quickStamp" title="선택한 가사를 재생 위치에 맞추기 (T)">타임 찍기 T</button><button id="quickLoop" title="선택한 가사 구간 반복">구절 반복</button><button id="layoutReset" title="미리보기와 편집 패널의 기본 크기로 복원">배치 초기화</button></div></div><div class="stage" id="stage"><div class="cinema-controls" id="cinemaControls" aria-label="전체 화면 미리보기 조작">
-<button type="button" id="cinemaPlay" title="재생 또는 일시정지">▶</button><output id="cinemaTime">00:00 / 00:00</output><input id="cinemaSeek" type="range" min="0" max="1000" value="0" aria-label="전체 화면 재생 위치"><button id="cinemaExit" type="button" title="전체 화면 나가기">✕</button></div><canvas id="visual" width="1920" height="1080" aria-label="음악에 반응하는 가사 영상"></canvas><div id="safeArea" hidden></div><div class="loading" id="loading">VORTEX<span>오리지널 음원과 장면 준비 중…</span></div></div><div class="viewer-bottom"><span>16:9 <b>1920 × 1080</b></span><span id="featureReadout">PRECOMPUTED AUDIO / EXACT MEDIA TIME</span><button id="fullscreen" title="전체 화면">⛶</button></div></section>
+<main class="workspace" id="workspace"><section class="viewer"><div class="viewer-top"><span><i class="live-dot"></i> 미리보기 <b id="lookReadout">HYBRID</b></span><div class="viewer-actions"><button id="quickStamp" title="선택한 가사를 재생 위치에 맞추기 (T)">타임 찍기 T</button><button id="quickLoop" title="선택한 가사 구간 반복">구절 반복</button><button id="layoutReset" title="미리보기와 편집 패널의 기본 크기로 복원">배치 초기화</button></div></div><div class="stage" id="stage"><div class="cinema-controls" id="cinemaControls" aria-label="영상 전체 화면 재생 조작"><button type="button" id="cinemaPlay" title="재생·일시정지">▶</button><output id="cinemaTime">00:00 / 00:00</output><input type="range" id="cinemaSeek" min="0" max="1000" value="0" aria-label="전체 화면 재생 위치"><button type="button" id="cinemaExit" title="전체 화면 나가기">✕</button></div><canvas id="visual" width="1920" height="1080" aria-label="음악에 반응하는 가사 영상"></canvas><div id="safeArea" hidden></div><div class="loading" id="loading">VORTEX<span>오리지널 음원과 장면 준비 중…</span></div></div><div class="viewer-bottom"><span>16:9 <b>1920 × 1080</b></span><span id="featureReadout">PRECOMPUTED AUDIO / EXACT MEDIA TIME</span><button id="fullscreen" title="전체 화면">⛶</button></div></section>
 <div aria-controls="inspector" id="workspaceDivider" class="layout-divider vertical" role="separator" aria-label="편집 패널 폭 조절" aria-orientation="vertical" tabindex="0"></div><aside class="inspector" id="inspector"><nav class="tabs" aria-label="편집 패널"><button data-tab="lyrics" class="active">가사</button><button data-tab="look">연출·FX</button><button data-tab="source">프로젝트</button><button data-tab="export">출력</button></nav>
 <section id="pane-lyrics" class="pane lyrics-pane active"><div class="section-heading"><span class="eyebrow">LYRICS</span><span id="cueCount">CUES</span></div><h2>가사 · 싱크 편집</h2><p class="help">번호를 눌러 듣고, 시작 시각과 가사를 직접 수정하세요.</p><details><summary>구절 검토</summary><div class="row"><button id="cueLoop">구절 반복</button><button id="splitCue">재생점 분할</button><button id="mergeCue">다음 줄 병합</button></div>
 <div class="row"><button id="reviewCue">검토 완료</button><button id="exportSrt">SRT 저장</button></div><output id="cueMeta" class="mini-note"></output><canvas id="vocalScope" width="600" height="64" aria-label="선택한 구절의 주파수 분포"></canvas></details>
-<div class="row"><button id="tap"  class="primary">현재 줄에 시간 찍기 <kbd>T</kbd></button><button id="addCue" title="현재 위치에 가사 추가">＋</button></div><div class="selection-row"><span id="selection">선택 01</span><button id="nudgeBack">−50 ms</button><button id="nudgeNext">+50 ms</button></div><div id="cueList" class="cue-list" aria-label="가사 큐 목록"></div><details><summary>텍스트 · 자막 가져오기</summary><label for="rawLyrics">한 줄에 가사 하나</label><textarea id="rawLyrics" rows="5" spellcheck="false"></textarea><div class="row"><button id="applyLyrics">텍스트 적용</button><button id="autoTiming">균등 배치</button></div><div class="row"><button id="importLRC">LRC / SRT 불러오기</button><button id="exportLRC">LRC 저장</button></div></details></section>
+<div class="row"><button id="tap"  class="primary">현재 줄에 시간 찍기 <kbd>T</kbd></button><button id="addCue" title="현재 위치에 가사 추가">＋</button></div><div class="selection-row"><span id="selection">선택 01</span><button id="nudgeBack">−50 ms</button><button id="nudgeNext">+50 ms</button></div><div id="cueList" class="cue-list" aria-label="가사 큐 목록"></div><details id="repeatDetails" class="repeat-editor"><summary>반복 보컬 · 발음 타이밍</summary>
+<label class="check"><input id="repeatPulseEnabled" type="checkbox" checked> 반복된 단어를 한 단어로 보여주고 보컬마다 점멸</label>
+<output id="repeatCueInfo" class="mini-note">반복된 같은 단어가 포함된 가사 줄을 선택하세요.</output>
+<div id="repeatWork">
+<div id="repeatLane" aria-label="구절 안의 보컬 시작 시각"><canvas width="560" height="44" aria-hidden="true"></canvas><div id="repeatMarkers"></div></div>
+<div id="repeatTimeInputs" class="repeat-time-inputs"></div>
+<div class="row"><button id="repeatListen">선택 발음 듣기</button><button id="repeatLoop">구절 반복</button><button id="repeatSlow">½속도</button></div>
+<div class="row"><button id="repeatAuto">음원 재분석</button><button id="repeatTap">다음 발음 찍기</button><button id="repeatClear">보정 지우기</button></div>
+<details><summary>발음별 점멸 설정</summary><div id="pulseSettings" class="repeat-time-inputs"></div></details>
+<details><summary>보정한 패턴 재사용</summary><button id="repeatMatch">같은 가사의 음원 비교</button><output id="repeatMatches" class="mini-note"></output><div class="row"><button id="repeatApply" disabled>높은 일치도만 적용</button><button id="repeatReject" disabled>취소</button></div></details>
+</div><details><summary>분리 보컬 분석 가져오기</summary><label class="mini-note">같은 음원의 보컬 스템에서 생성한 .bin 파일<input id="vocalGuide" type="file" accept=".bin"></label><output id="guideState" class="mini-note"></output></details></details><details><summary>텍스트 · 자막 가져오기</summary><label for="rawLyrics">한 줄에 가사 하나</label><textarea id="rawLyrics" rows="5" spellcheck="false"></textarea><div class="row"><button id="applyLyrics">텍스트 적용</button><button id="autoTiming">균등 배치</button></div><div class="row"><button id="importLRC">LRC / SRT 불러오기</button><button id="exportLRC">LRC 저장</button></div></details></section>
 <section id="pane-look" class="pane"><div class="eyebrow">MOTION</div><h2>연출 · 효과 편집</h2><label>프리셋<select id="look"></select></label><button type="button" id="compare" aria-pressed="false" class="wide">70–80초 반복 비교</button><label class="check"><input type="checkbox" id="autoSync"> 저역 어택으로 카메라 동기화</label>
 <button id="baselineAB" aria-pressed="false">V3 원본과 A/B</button>
 <label>화면 반응 지연 (ms)<input id="syncOffset" type="number" min="-180" max="180" step="5"></label><label>드롭 강도 <output id="sectionLevel"></output><input type="range" min="0" max="2" step=".05" id="sectionGain"></label>
@@ -98,7 +27,7 @@ await import('./assets/index-DQGmWxXG.js?rev=20261116-autosave-recovery');
 <div class="row"><button id="addKick">현재 위치에 추가</button><button id="removeKick">가까운 이벤트 삭제</button><label>강도<input id="kickStrength" type="number" min="0" max="1" step=".05"></label></div><div class="row"><label>검출 신뢰도<input type="number" id="kickConfidence" min="0" max="1" step=".05"></label><button id="auditionKick">주변 듣기</button></div><output id="eventEvidence" class="mini-note"></output><label class="check"><input type="checkbox" id="clickTrack"> 박자 클릭 듣기</label></details><label class="check"><input type="checkbox" id="animateLyrics" checked> 가사 이동 애니메이션</label><div id="sliders"></div><label class="check"><input type="checkbox" id="spectrum" checked> 표지 주변 주파수 스펙트럼</label><label class="check"><input type="checkbox" id="particles" checked> 미세한 고역 입자</label><label class="check"><input type="checkbox" id="lyrics" checked> 스크롤 가사</label><label class="check"><input type="checkbox" id="reduced"> 모션 줄이기</label><label class="check"><input type="checkbox" id="safe"> 안전 영역 (편집기만)</label><button id="resetFX" class="wide">기본 연출 복원</button><div class="divider"></div><div class="eyebrow">BEAT GRID / MANUAL CORRECTION</div><div class="row"><label>BPM<input type="number" id="bpm" min="40" max="240" step="0.25"></label><label>비트 오프셋 · 초<input type="number" id="beatOffset" min="-5" max="5" step="0.01"></label></div><p id="analysisInfo" class="mini-note"></p><div class="row"><button id="markDrop">현재 위치에 드롭 추가</button><button id="resetDrops">감지값 복원</button></div><div id="dropList" class="drop-list"></div></section>
 <section id="pane-source" class="pane"><div class="eyebrow">PROJECT</div><h2>음원과 프로젝트</h2><p class="help">원본 음악, OC 표지와 가사가 모두 들어 있습니다. 파일은 브라우저 안에서 처리합니다.</p><img id="coverThumb"  class="cover-thumb" alt="MANTETEKI TAKATA 앨범 표지"><div class="asset-card"><span class="asset-icon">♫</span><div><b id="audioName">MANTETEKI TAKATA</b><small id="audioDetails">ORIGINAL AUDIO / 03:13</small></div></div><div class="row"><button id="replaceAudio">새 음원 열기</button><button id="replaceCover">표지 교체</button></div><label>최근 프로젝트<select id="recentProjects"></select></label><button id="recoverProject">저장본 복구</button>
 <label>킥 검출 민감도<input id="sensitivity" type="number" min=".7" max="1.35" step=".05" value="1"></label><div class="row"><button id="rescore" title="직접 편집한 마커 트랙은 유지하고 자동 검출을 갱신합니다.">이 음원 다시 분석</button><button id="tapTempo">탭 템포</button></div>
-<div class="divider"></div><button id="openProject" class="wide">프로젝트 JSON 열기</button><button id="restoreOriginal" class="wide">원본 음원·표지 복원</button><p class="mini-note">저장은 가사·연출 설정을 보존합니다. 이 브라우저에서는 가져온 음원과 표지도 함께 복구합니다. 원본 파일은 수정하지 않습니다.</p></section>
+<button id="rescueJson" hidden>복구 대기 중인 프로젝트 JSON 받기</button><form action="/auth/logout" method="post" id="logoutForm"><button>잠금 · 로그아웃</button></form><div class="divider"></div><button id="openProject" class="wide">프로젝트 JSON 열기</button><button id="restoreOriginal" class="wide">원본 음원·표지 복원</button><p class="mini-note">저장은 가사·연출 설정을 보존합니다. 이 브라우저에서는 가져온 음원과 표지도 함께 복구합니다. 원본 파일은 수정하지 않습니다.</p></section>
 <section id="pane-export" class="pane"><div class="eyebrow">EXPORT</div><h2>영상 내보내기</h2><p class="help">미리보기와 같은 장면을 시간별로 렌더링하고 원본 오디오와 함께 인코딩합니다.</p><label>해상도<select id="exportSize"><option value="1920">1920 × 1080 / FULL HD</option><option value="1280">1280 × 720 / 빠른 확인</option></select></label><div class="row"><label>형식<select id="exportFormat"><option value="mp4">MP4 / H.264 + AAC</option><option value="webm">WebM / VP9 + Opus</option></select></label><label>프레임레이트<select id="exportFPS"><option value="60">60 fps</option><option value="30">30 fps</option></select></label></div><p id="codecInfo" class="mini-note">출력할 때 브라우저의 코덱 지원을 검사합니다.</p><div class="row"><label>시작 · 초<input type="number" id="rangeStart" min="0" step=".001" value="0"></label><label>종료 · 초<input type="number" id="rangeEnd" min="0.1" step=".001" value="10"></label></div><div class="row"><button id="sampleRange">현재부터 10초</button><button id="fullRange">전체 곡</button></div><label class="check"><input type="checkbox" id="directSave"> 파일에 직접 저장 (긴 영상 권장)</label><button id="exportBtn" class="primary wide export-cta">영상 렌더링 ↓</button><button id="cancelExport" class="wide danger" hidden>내보내기 취소</button><progress id="exportProgress" max="1" value="0"></progress><p id="exportStatus" role="status">READY TO RENDER</p><a id="downloadAgain" hidden>영상 다시 다운로드 ↓</a><video id="exportPreview" controls playsinline hidden></video><p class="mini-note">MP4 인코더가 없으면 지원되는 WebM으로 자동 전환합니다. WebCodecs가 없는 브라우저에는 실시간 WebM 녹화를 제공합니다. 출력 중에는 프로젝트 편집이 잠깁니다.</p></section></aside></main><div aria-controls="timeline" id="timelineDivider" class="layout-divider horizontal" role="separator" aria-label="타임라인 높이 조절" aria-orientation="horizontal" tabindex="0"></div>
 <section class="timeline" id="timeline"><div class="transport"><div class="transport-left"><button id="stop" title="처음으로">⏮</button><button id="play" class="play" aria-label="재생">▶</button><button id="back" title="5초 뒤로">−5</button><button id="forward" title="5초 앞으로">+5</button><span class="clock"><b id="timeNow">00:00.00</b><span id="timeTotal"> / 03:13</span></span></div><div class="transport-right"><label class="inline">배속<select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.50×</option><option value="0.75">0.75×</option><option value="1" selected>1.00×</option><option value="1.25">1.25×</option></select></label><label class="inline zoom-label">파형 확대<input id="waveZoom" type="range" min="1" max="32" step="1" value="1"></label></div></div><div class="marker-tools" aria-label="타임라인 마커 편집">
 <label for="markerTrack">마커</label><select id="markerTrack" aria-label="편집할 마커 종류"><option value="lyrics">가사</option><option value="drops" selected>드롭</option><option value="kickEvents">킥</option><option value="snareEvents">스네어</option><option value="hatEvents">하이햇</option></select>
@@ -107,5 +36,5 @@ await import('./assets/index-DQGmWxXG.js?rev=20261116-autosave-recovery');
 <button id="markerBack" title="선택 마커 10ms 앞당기기" disabled>−10ms</button><button id="markerForward" title="선택 마커 10ms 늦추기" disabled>+10ms</button>
 <button id="markerFrameBack" title="출력 프레임레이트 기준 한 프레임 앞당기기" disabled>−1f</button><button id="markerFrameForward" title="출력 프레임레이트 기준 한 프레임 늦추기" disabled>+1f</button><label for="markerSnap">스냅</label><select id="markerSnap" aria-label="마커를 이동할 때의 박자 스냅"><option value="0">끔</option><option value="1">1박</option><option value="2">1/2박</option><option value="4">1/4박</option><option value="8">1/8박</option></select>
 <button id="markerAdd" title="현재 재생 위치에 선택한 종류 마커 추가">＋ 추가</button><button id="markerDelete" title="선택 마커 삭제" disabled>삭제</button>
-</div><canvas id="markerLane" aria-label="오디오 타임라인 마커. 클릭해 선택하고 드래그해 이동" role="img"></canvas><div id="waveform" aria-label="클릭하거나 드래그하여 탐색하는 오디오 파형"></div><div class="timeline-footer"><span id="sectionInfo">INTRO</span><span>SPACE 재생 · J/L ±5초 · T 타임 찍기 · [ ] ±50ms · CTRL S 저장 · 1~4 탭</span><span id="engineStatus">INITIALIZING</span></div></section><div class="demo-tools"><a href="./">← STUDIO</a><span>MANTETEKI TAKATA</span><select id="demoLook" aria-label="모션 프리셋"></select><button id="demoFull">⛶ 전체 화면</button></div><div id="toast" role="status" hidden></div><input type="file" id="audioInput" accept="audio/*" hidden><input type="file" id="coverInput" accept="image/*" hidden><input type="file" id="lrcInput" accept=".lrc,.srt,.txt" hidden><input type="file" id="projectInput" accept=".json" hidden></div><dialog id="keysDialog" aria-labelledby="keysTitle"><header><h2 id="keysTitle">편집 단축키</h2><form method="dialog"><button>닫기</button></form></header><dl>
+</div><canvas id="markerLane" aria-label="오디오 타임라인 마커. 클릭해 선택하고 드래그해 이동" role="img"></canvas><div id="waveform" aria-label="클릭하거나 드래그하여 탐색하는 오디오 파형"></div><div class="timeline-footer"><span id="sectionInfo">INTRO</span><span>SPACE 재생 · J/L ±5초 · T 타임 찍기 · [ ] ±50ms · CTRL S 저장 · 1~4 탭</span><span id="engineStatus">INITIALIZING</span></div></section><div id="toast" role="status" hidden></div><input type="file" id="audioInput" accept="audio/*" hidden><input type="file" id="coverInput" accept="image/*" hidden><input type="file" id="lrcInput" accept=".lrc,.srt,.txt" hidden><input type="file" id="projectInput" accept=".json" hidden></div><dialog id="keysDialog" aria-labelledby="keysTitle"><header><h2 id="keysTitle">편집 단축키</h2><form method="dialog"><button>닫기</button></form></header><dl>
  <dt>Space</dt><dd>재생 / 일시정지</dd><dt>J / L</dt><dd>앞뒤 5초 이동</dd><dt>← / →</dt><dd>출력 기준 한 프레임 이동</dd><dt>T</dt><dd>선택한 가사에 현재 시각 찍기</dd><dt>[ / ]</dt><dd>가사 ±50ms</dd><dt>1 · 2 · 3 · 4</dt><dd>가사 · FX · 프로젝트 · 출력</dd><dt>Ctrl S</dt><dd>프로젝트 JSON 저장</dd><dt>Ctrl Z / Ctrl Shift Z</dt><dd>실행 취소 / 다시 실행</dd></dl></dialog></body></html>
