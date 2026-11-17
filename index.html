@@ -1,5 +1,5 @@
-<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090e18"><link rel="icon" href="data:,"><title>VORTEX // STUDIO</title>  <script type="module" crossorigin src="./assets/index-C9tNO1Sd.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DqWHmcLa.css">
+<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090e18"><link rel="icon" href="data:,"><title>VORTEX // STUDIO</title>  <script type="module" crossorigin src="./assets/index-CphzI7x9.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-fRSswdG-.css">
 </head><body>
 <section id="projectHub" aria-label="프로젝트 라이브러리">
 <header class="hub-head"><b>VORTEX <i>//</i> STUDIO</b><span>프로젝트 라이브러리 · V6</span></header>
@@ -69,7 +69,7 @@
  <section class="viewer">
   <div class="stage" id="stage">
    <canvas id="visual" width="1920" height="1080" aria-label="미리보기"></canvas>
-   <div id="calFlash" hidden></div><div id="safeArea" hidden></div>
+   <div id="calFlash" hidden></div><div id="fxPreviewLabel" hidden></div><div id="safeArea" hidden></div>
    <svg id="handles" viewBox="0 0 1920 1080" preserveAspectRatio="none" aria-hidden="true"></svg>
    <div class="cinema-controls" id="cinemaControls"><button type="button" id="cinemaPlay">▶</button><output id="cinemaTime">00:00 / 00:00</output><input type="range" id="cinemaSeek" min="0" max="1000" value="0" aria-label="재생 위치"><button type="button" id="cinemaExit">✕</button></div>
    <div class="loading" id="loading">VORTEX<span>음원과 장면 준비 중…</span></div>
@@ -91,7 +91,7 @@
   <div class="tgroup"><button id="zoomOut" title="축소 (Ctrl+휠)">－</button><button id="zoomFit" title="전체 보기">맞춤</button><button id="zoomIn" title="확대 (Ctrl+휠)">＋</button></div>
   <div class="tgroup"><button id="addTrack" title="FX 트랙 추가">＋ 트랙</button><button id="removeTrack" title="빈 맨 위 트랙 제거">－ 트랙</button></div>
   <label class="inline">마커 추가<select id="markerAdd"><option value="">재생헤드에…</option><option value="drops">드롭 (M)</option><option value="kickEvents">킥</option><option value="snareEvents">스네어</option><option value="hatEvents">하이햇</option></select></label>
-  <span id="tlStatus" class="tl-status">드래그·우클릭드래그 = 이동 · 양끝 = 트림 · 더블클릭 = 쪼개기 · 우클릭 = 메뉴 · Alt+드래그 = 복제 · Shift = 스냅 무시</span>
+  <span id="tlStatus" class="tl-status">드래그 = 이동 · 우클릭 드래그 = 재생 위치 이동 · 양끝 = 트림 · 더블클릭 = 쪼개기 · 우클릭 = 메뉴 · Alt+드래그 = 복제 · Shift = 스냅 무시</span>
   <span id="engineStatus" class="tl-engine">INITIALIZING</span>
  </div>
  <div class="tl-ruler-row"><div class="tl-corner" id="tlCorner"></div><canvas id="tlRuler"></canvas></div>
@@ -117,6 +117,6 @@
 <dialog id="keysDialog"><header><h2>단축키</h2><form method="dialog"><button>닫기</button></form></header><dl>
  <dt>Space</dt><dd>재생 / 일시정지</dd><dt>J / L</dt><dd>5초 뒤로 / 앞으로</dd><dt>← / →</dt><dd>1프레임 (Shift: 1박)</dd><dt>Home / End</dt><dd>처음 / 끝</dd>
  <dt>V / C</dt><dd>선택 도구 / 자르기 도구</dd><dt>Ctrl K</dt><dd>재생헤드에서 선택 클립 자르기</dd><dt>Ctrl C / V / D</dt><dd>복사 / 재생헤드에 붙여넣기 / 복제</dd><dt>Delete</dt><dd>선택 삭제</dd>
- <dt>K</dt><dd>마지막으로 만진 파라미터 키프레임 토글</dd><dt>I / O / Alt X</dt><dd>루프 시작 / 끝 / 해제</dd><dt>T</dt><dd>선택 가사에 재생헤드 시각 찍기 (📌 고정) + 다음 줄</dd><dt>N</dt><dd>재생헤드에 새 가사</dd><dt>↑ / ↓</dt><dd>이전 / 다음 가사로 이동</dd><dt>Enter</dt><dd>선택 가사 텍스트 편집</dd><dt>더블클릭</dt><dd>가사·클립을 그 위치에서 쪼개기</dd><dt>우클릭</dt><dd>메뉴 · 우클릭 드래그 = 이동</dd><dt>S</dt><dd>스냅 켜기/끄기</dd><dt>Ctrl A</dt><dd>모든 클립 선택</dd><dt>[ / ]</dt><dd>선택 가사 ±50ms</dd><dt>M</dt><dd>재생헤드에 드롭 마커</dd>
+ <dt>K</dt><dd>마지막으로 만진 파라미터 키프레임 토글</dd><dt>I / O / Alt X</dt><dd>루프 시작 / 끝 / 해제</dd><dt>T</dt><dd>선택 가사에 재생헤드 시각 찍기 (📌 고정) + 다음 줄</dd><dt>N</dt><dd>재생헤드에 새 가사</dd><dt>↑ / ↓</dt><dd>이전 / 다음 가사로 이동</dd><dt>Enter</dt><dd>선택 가사 텍스트 편집</dd><dt>더블클릭</dt><dd>가사·클립을 그 위치에서 쪼개기</dd><dt>우클릭</dt><dd>메뉴 · 우클릭 드래그 = 재생 위치(시간) 이동</dd><dt>이펙트 클릭</dt><dd>영상에서 1초 미리보기 (더블클릭 = 추가)</dd><dt>S</dt><dd>스냅 켜기/끄기</dd><dt>Ctrl A</dt><dd>모든 클립 선택</dd><dt>[ / ]</dt><dd>선택 가사 ±50ms</dd><dt>M</dt><dd>재생헤드에 드롭 마커</dd>
  <dt>Ctrl 휠</dt><dd>타임라인 확대/축소</dd><dt>휠</dt><dd>타임라인 가로 스크롤</dd><dt>Shift + 룰러 드래그</dt><dd>루프 구간 지정</dd><dt>F</dt><dd>영상 전체화면</dd><dt>Ctrl S</dt><dd>프로젝트에 저장 (Ctrl Shift S = JSON 다운로드)</dd><dt>Ctrl Z / Ctrl Shift Z</dt><dd>실행 취소 / 다시 실행</dd><dt>Esc</dt><dd>선택 해제</dd></dl></dialog>
 </body></html>
