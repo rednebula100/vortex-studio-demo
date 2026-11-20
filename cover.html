@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cover Studio · VORTEX</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23eca262'/%3E%3C/svg%3E">
+  <script type="module" crossorigin src="./assets/cover-BMmsyUuD.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="./assets/store-BDe4yyhe.js">
+  <link rel="stylesheet" crossorigin href="./assets/cover-DTxmNoq4.css">
+</head>
+<body class="cs">
+<header class="cs-head">
+ <a class="cs-brand" href="./index.html" title="영상 편집기로">‹ VORTEX <i>//</i> COVER STUDIO</a>
+ <input id="docName" class="cs-name" maxlength="80" aria-label="문서 이름">
+ <span id="saveState" class="cs-state">—</span>
+ <div class="cs-actions">
+  <button id="undoBtn" title="실행 취소 (Ctrl+Z)">↶</button><button id="redoBtn" title="다시 실행 (Ctrl+Shift+Z)">↷</button>
+  <button id="newBtn">새 문서 · 템플릿</button><button id="openBtn">열기</button><button id="saveBtn" title="Ctrl+S">저장</button>
+  <select id="exportSize" title="내보내기 크기"><option value="3000">3000px</option><option value="1500">1500px</option><option value="4000">4000px</option></select>
+  <button id="exportBtn" class="primary" title="Ctrl+E">PNG 내보내기</button>
+  <button id="variantBtn" title="색조를 돌린 리믹스 변형 4종">색 변형 4종</button>
+  <button id="sendBtn" class="accent" title="영상 편집기의 표지로 보내기">VORTEX로 보내기</button>
+ </div>
+</header>
+<main class="cs-main">
+ <nav class="cs-tools" id="tools" aria-label="도구">
+  <button data-tool="move" title="이동 · 크기 · 회전 (V)">✥</button>
+  <button data-tool="text" title="텍스트 (T) — 클릭한 곳에 글자 추가">T</button>
+  <button data-tool="shape" title="도형 (U)">▢</button>
+  <button data-tool="brush" title="마스크 브러시 (B) — 이미지 레이어의 배경 지우기/복원">✎</button>
+  <button data-tool="hand" title="화면 이동 (H, Space 누른 채 드래그)">✋</button>
+  <hr>
+  <button id="fitBtn" title="화면에 맞추기 (Ctrl+0)">⤢</button>
+  <span id="zoomLabel" class="cs-zoom">100%</span>
+ </nav>
+ <section class="cs-stage" id="stage">
+  <div class="cs-board" id="board"><canvas id="art" width="1200" height="1200"></canvas><canvas id="over" width="1200" height="1200"></canvas></div>
+  <div class="cs-hint" id="hint">이미지를 끌어다 놓거나 Ctrl+V로 붙여넣기 · 휠 = 확대/축소 · Space/우클릭 드래그 = 이동</div>
+ </section>
+ <aside class="cs-side">
+  <section class="cs-props" id="props"></section>
+  <section class="cs-layers">
+   <header><b>레이어</b>
+    <div class="cs-layer-add">
+     <button id="addText" title="텍스트 레이어">＋T</button><button id="addShape" title="도형 레이어">＋▢</button><button id="addImage" title="이미지 레이어">＋🖼</button><button id="addFill" title="채우기 레이어">＋■</button>
+     <select id="addAdjust" title="보정 레이어"><option value="">＋보정…</option></select>
+    </div>
+   </header>
+   <ol id="layerList" class="cs-layer-list"></ol>
+   <footer><button id="dupBtn" title="Ctrl+D">복제</button><button id="upBtn" title="Ctrl+]">위로</button><button id="downBtn" title="Ctrl+[">아래로</button><button id="clipBtn" title="아래 레이어에 클리핑 (Alt+Ctrl+G)">클리핑</button><button id="delBtn" class="danger" title="Delete">삭제</button></footer>
+  </section>
+ </aside>
+</main>
+<input type="file" id="imageInput" accept="image/*" hidden>
+<input type="file" id="fontInput" accept=".ttf,.otf,.woff" hidden>
+<dialog id="newDialog" class="cs-dialog"><header><h2>새 문서 · 몬타젬 템플릿</h2><form method="dialog"><button>닫기</button></form></header>
+ <p class="note">실제 몬타젬 앨범 커버(96장 조사)에서 자주 쓰이는 구성입니다. 기준 이미지를 고르면 템플릿에 바로 들어갑니다.</p>
+ <label class="cs-row"><span>기준 이미지 (선택)</span><input type="file" id="newImage" accept="image/*"></label>
+ <div class="cs-templates" id="templateList"></div></dialog>
+<dialog id="openDialog" class="cs-dialog"><header><h2>문서 열기</h2><form method="dialog"><button>닫기</button></form></header><div class="cs-docs" id="docList"></div></dialog>
+<div id="toast" class="cs-toast" hidden></div>
+</body>
+</html>

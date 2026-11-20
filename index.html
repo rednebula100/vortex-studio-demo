@@ -1,9 +1,10 @@
-<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090e18"><link rel="icon" href="data:,"><title>VORTEX // STUDIO</title>  <script type="module" crossorigin src="./assets/index-B-BIOwjF.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-fRSswdG-.css">
+<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0f0f0f"><link rel="icon" href="data:,"><title>VORTEX // STUDIO</title>  <script type="module" crossorigin src="./assets/main-B7Aa31NW.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="./assets/main-DdbZpuDt.css">
 </head><body>
 <section id="projectHub" aria-label="프로젝트 라이브러리">
-<header class="hub-head"><b>VORTEX <i>//</i> STUDIO</b><span>프로젝트 라이브러리 · V6</span></header>
-<div class="hub-body"><aside class="hub-tools"><button id="hubNew" class="primary">＋ 새 프로젝트</button><button id="hubImport">JSON 프로젝트 열기</button><button id="hubFresh">원곡에서 새 사본 만들기</button><label class="reconnect" title="JSON에 연결된 원래 음원과 이미지를 선택하세요">미디어 다시 연결<input id="reconnectMedia" type="file" multiple accept="audio/*,image/*"></label><small>이 브라우저에 저장됩니다.</small></aside>
+<header class="hub-head"><b>VORTEX <i>//</i> STUDIO</b><span>프로젝트 라이브러리 · V7</span></header>
+<div class="hub-body"><aside class="hub-tools"><button id="hubNew" class="primary">＋ 새 프로젝트</button><button id="hubImport">JSON 프로젝트 열기</button><button id="hubFresh">원곡에서 새 사본 만들기</button><a class="btnlink" href="./cover.html">🎨 커버 스튜디오 (앨범 이미지)</a><label class="reconnect" title="JSON에 연결된 원래 음원과 이미지를 선택하세요">미디어 다시 연결<input id="reconnectMedia" type="file" multiple accept="audio/*,image/*"></label><small>이 브라우저에 저장됩니다.</small></aside>
 <main class="hub-main"><div class="hub-heading"><h1>프로젝트</h1><div><input id="hubSearch" type="search" aria-label="프로젝트 검색" placeholder="프로젝트 검색"><select id="hubSort" aria-label="정렬"><option value="recent">최근 수정순</option><option value="title">이름순</option></select></div></div><output id="hubStatus" role="status">라이브러리를 여는 중…</output><div id="hubList"></div></main></div>
 <input id="hubJson" type="file" accept=".json" hidden></section>
 <dialog id="newProjectDialog"><form><h2>새 프로젝트</h2><label>프로젝트 이름<input id="newTitle" required maxlength="120" autofocus></label><label>음원<input id="newAudio" type="file" accept="audio/*" required></label><label>커버 이미지 · 선택<input id="newCover" type="file" accept="image/*"></label><label>시작 설정<select id="newTemplate"><option value="wave">Reference Wave · 1080p60</option><option value="v3">V3 Original · 1080p60</option></select></label><div class="row"><button type="button" id="newCancel">취소</button><button class="primary">분석하고 만들기</button></div></form></dialog>
@@ -51,6 +52,7 @@
    <img id="coverThumb" class="cover-thumb" alt="앨범 표지">
    <div class="asset-card"><span class="asset-icon">♫</span><div><b id="audioName">MANTETEKI TAKATA</b><small id="audioDetails">ORIGINAL AUDIO</small></div></div>
    <div class="row"><button id="replaceAudio">새 음원 열기</button><button id="replaceCover">표지 교체</button></div>
+   <div class="row"><button id="coverFromStudio" title="커버 스튜디오에서 “VORTEX로 보내기” 한 이미지를 표지로">커버 스튜디오에서 가져오기</button><a class="btnlink" href="./cover.html" target="_blank" rel="noopener">커버 스튜디오 열기 ↗</a></div>
    <h4>박자 격자</h4>
    <div class="row"><label>BPM<input type="number" id="bpm" min="40" max="240" step="0.25"></label><label>격자 시작 · 초<input type="number" id="beatOffset" min="-5" max="5" step="0.001"></label></div>
    <div class="row"><button id="tapTempo">탭 템포</button><button id="phaseLess">격자 −10ms</button><button id="phaseMore">격자 +10ms</button></div>
@@ -106,6 +108,7 @@
  <p class="note">미리보기와 같은 장면을 프레임 단위로 렌더링해 원본 오디오와 함께 인코딩합니다. 모니터 지연 보정은 출력에 들어가지 않습니다.</p>
  <label>해상도<select id="exportSize"><option value="3840">3840 × 2160 / 4K (유튜브 최고 화질, 느림)</option><option value="2560">2560 × 1440 / QHD (유튜브 고화질 추천)</option><option value="1920" selected>1920 × 1080 / FULL HD</option><option value="1280">1280 × 720 / 빠른 확인</option></select></label>
  <div class="row"><label>형식<select id="exportFormat"><option value="mp4">MP4 · H.264 + AAC (가장 호환)</option><option value="mp4-hevc">MP4 · H.265/HEVC + AAC</option><option value="mp4-av1">MP4 · AV1 + AAC</option><option value="webm">WebM · VP9 + Opus</option></select></label><label>프레임레이트<select id="exportFPS"><option value="60">60 fps</option><option value="30">30 fps</option></select></label></div>
+ <label>오디오<select id="exportAudio"><option value="aac" selected>AAC 192 kbps (가장 호환)</option><option value="opus">Opus 320 kbps (더 좋은 음질)</option><option value="pcm">무손실 PCM 24-bit (MOV · 원음 그대로, 용량 큼)</option></select></label>
  <label>화질<select id="exportQuality"><option value="standard">표준 (작은 용량)</option><option value="high" selected>높음 (권장)</option><option value="veryhigh">매우 높음</option><option value="max">최고 (용량 매우 큼)</option></select></label>
  <label class="check"><input type="checkbox" id="exportDither" checked> 밴딩 방지 미세 디더 (킥 번쩍임·블러 그라디언트의 계단/블록 방지)</label>
  <p class="note" id="qualityInfo"></p>
@@ -121,5 +124,5 @@
  <dt>Space</dt><dd>재생 / 일시정지</dd><dt>J / L</dt><dd>5초 뒤로 / 앞으로</dd><dt>← / →</dt><dd>1프레임 (Shift: 1박)</dd><dt>Home / End</dt><dd>처음 / 끝</dd>
  <dt>V / C</dt><dd>선택 도구 / 자르기 도구</dd><dt>Ctrl K</dt><dd>재생헤드에서 선택 클립 자르기</dd><dt>Ctrl C / V / D</dt><dd>복사 / 재생헤드에 붙여넣기 / 복제</dd><dt>Delete</dt><dd>선택 삭제</dd>
  <dt>K</dt><dd>마지막으로 만진 파라미터 키프레임 토글</dd><dt>I / O / Alt X</dt><dd>루프 시작 / 끝 / 해제</dd><dt>T</dt><dd>선택 가사에 재생헤드 시각 찍기 (📌 고정) + 다음 줄</dd><dt>N</dt><dd>재생헤드에 새 가사</dd><dt>↑ / ↓</dt><dd>이전 / 다음 가사로 이동</dd><dt>Enter</dt><dd>선택 가사 텍스트 편집</dd><dt>더블클릭</dt><dd>가사·클립을 그 위치에서 쪼개기</dd><dt>우클릭</dt><dd>메뉴 · 우클릭 드래그 = 타임라인 화면을 잡고 이동 (좌우·위아래)</dd><dt>이펙트 클릭</dt><dd>영상에서 1초 미리보기 (더블클릭 = 추가)</dd><dt>S</dt><dd>스냅 켜기/끄기</dd><dt>Ctrl A</dt><dd>모든 클립 선택</dd><dt>[ / ]</dt><dd>선택 가사 ±50ms</dd><dt>M</dt><dd>재생헤드에 드롭 마커</dd>
- <dt>Ctrl 휠</dt><dd>타임라인 확대/축소</dd><dt>휠</dt><dd>타임라인 가로 스크롤</dd><dt>Shift + 룰러 드래그</dt><dd>루프 구간 지정</dd><dt>F</dt><dd>영상 전체화면</dd><dt>Ctrl S</dt><dd>프로젝트에 저장 (Ctrl Shift S = JSON 다운로드)</dd><dt>Ctrl Z / Ctrl Shift Z</dt><dd>실행 취소 / 다시 실행</dd><dt>Esc</dt><dd>선택 해제</dd></dl></dialog>
+ <dt>Ctrl 휠</dt><dd>타임라인 확대/축소</dd><dt>휠</dt><dd>타임라인 트랙 위아래 스크롤 (Shift+휠 = 가로)</dd><dt>Shift + 룰러 드래그</dt><dd>루프 구간 지정</dd><dt>F</dt><dd>영상 전체화면</dd><dt>Ctrl S</dt><dd>프로젝트에 저장 (Ctrl Shift S = JSON 다운로드)</dd><dt>Ctrl Z / Ctrl Shift Z</dt><dd>실행 취소 / 다시 실행</dd><dt>Esc</dt><dd>선택 해제</dd></dl></dialog>
 </body></html>
