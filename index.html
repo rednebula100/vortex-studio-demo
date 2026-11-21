@@ -1,13 +1,13 @@
-<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0f0f0f"><link rel="icon" href="data:,"><title>VORTEX // STUDIO</title>  <script type="module" crossorigin src="./assets/main-B7Aa31NW.js"></script>
+<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0f0f0f"><link rel="icon" href="data:,"><title>VORTEX // STUDIO</title>  <script type="module" crossorigin src="./assets/main-Dxrq8Rdz.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="stylesheet" crossorigin href="./assets/main-DdbZpuDt.css">
+  <link rel="stylesheet" crossorigin href="./assets/main-mg1cBiah.css">
 </head><body>
 <section id="projectHub" aria-label="프로젝트 라이브러리">
-<header class="hub-head"><b>VORTEX <i>//</i> STUDIO</b><span>프로젝트 라이브러리 · V7</span></header>
-<div class="hub-body"><aside class="hub-tools"><button id="hubNew" class="primary">＋ 새 프로젝트</button><button id="hubImport">JSON 프로젝트 열기</button><button id="hubFresh">원곡에서 새 사본 만들기</button><a class="btnlink" href="./cover.html">🎨 커버 스튜디오 (앨범 이미지)</a><label class="reconnect" title="JSON에 연결된 원래 음원과 이미지를 선택하세요">미디어 다시 연결<input id="reconnectMedia" type="file" multiple accept="audio/*,image/*"></label><small>이 브라우저에 저장됩니다.</small></aside>
+<header class="hub-head"><b>VORTEX <i>//</i> STUDIO</b><span>프로젝트 라이브러리 · V8</span></header>
+<div class="hub-body"><aside class="hub-tools"><button id="hubNew" class="primary">＋ 새 프로젝트</button><button id="hubImport">JSON 프로젝트 열기</button><button id="hubFresh">원곡에서 새 사본 만들기</button><a class="btnlink hubcover" href="./cover.html">🎨 커버 스튜디오 (앨범 이미지 편집기)</a><label class="reconnect" title="JSON에 연결된 원래 음원과 이미지를 선택하세요">미디어 다시 연결<input id="reconnectMedia" type="file" multiple accept="audio/*,image/*"></label><small>이 브라우저에 저장됩니다.</small></aside>
 <main class="hub-main"><div class="hub-heading"><h1>프로젝트</h1><div><input id="hubSearch" type="search" aria-label="프로젝트 검색" placeholder="프로젝트 검색"><select id="hubSort" aria-label="정렬"><option value="recent">최근 수정순</option><option value="title">이름순</option></select></div></div><output id="hubStatus" role="status">라이브러리를 여는 중…</output><div id="hubList"></div></main></div>
 <input id="hubJson" type="file" accept=".json" hidden></section>
-<dialog id="newProjectDialog"><form><h2>새 프로젝트</h2><label>프로젝트 이름<input id="newTitle" required maxlength="120" autofocus></label><label>음원<input id="newAudio" type="file" accept="audio/*" required></label><label>커버 이미지 · 선택<input id="newCover" type="file" accept="image/*"></label><label>시작 설정<select id="newTemplate"><option value="wave">Reference Wave · 1080p60</option><option value="v3">V3 Original · 1080p60</option></select></label><div class="row"><button type="button" id="newCancel">취소</button><button class="primary">분석하고 만들기</button></div></form></dialog>
+<dialog id="newProjectDialog"><form><h2>새 프로젝트</h2><label>프로젝트 이름<input id="newTitle" required maxlength="120" autofocus></label><label>음원<input id="newAudio" type="file" accept="audio/*" required></label><label>커버 이미지 · 선택<input id="newCover" type="file" accept="image/*"></label><label>시작 설정<select id="newTemplate"><option value="wave">Reference Wave · 1080p60</option><option value="v3">나이트폴 · 기본 템플릿 · 1080p60</option></select></label><div class="row"><button type="button" id="newCancel">취소</button><button class="primary">분석하고 만들기</button></div></form></dialog>
 
 <div id="app" inert>
 <header class="header">
@@ -18,6 +18,7 @@
   <button id="monitorChip" class="monitor-chip" title="모니터 지연 보정 (에어팟 등)">🎧 <b id="monitorValue">0 ms</b></button>
   <button id="shortcutHelp" title="단축키">⌨</button>
   <button id="openProject" title="프로젝트 JSON 파일 불러오기">불러오기</button><button id="saveProject" title="이 브라우저의 프로젝트에 지금 저장 (Ctrl+S)">💾 저장</button><button id="downloadProject" title="프로젝트 JSON 파일로 다운로드 (Ctrl+Shift+S)">⬇ JSON</button>
+  <a class="btnlink" href="./cover.html" target="_blank" rel="noopener" title="앨범 커버 이미지 편집기 (새 탭)">🎨 커버 스튜디오</a>
   <button id="exportOpen" class="primary">내보내기 ↗</button>
  </div>
  <div id="monitorPop" class="popover" hidden>
@@ -79,7 +80,7 @@
   <div class="transport">
    <div class="tgroup"><button id="toStart" title="처음 (Home)">⏮</button><button id="prevBeat" title="이전 박 (Shift+←)">◀◀</button><button id="play" class="play" title="재생 (Space)">▶</button><button id="nextBeat" title="다음 박 (Shift+→)">▶▶</button><button id="toEnd" title="끝 (End)">⏭</button></div>
    <span class="clock"><b id="timeNow">00:00.00</b><span id="timeTotal"> / 00:00</span><small id="beatNow"></small></span>
-   <div class="tgroup"><button id="loopToggle" title="루프 (룰러에서 Shift+드래그 또는 I/O)" aria-pressed="false">⟲ 루프</button><select id="speed" title="재생 속도"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option></select><button id="baselineAB" title="V3 원본 룩과 비교" aria-pressed="false">A/B V3</button><button id="fullscreen" title="영상만 전체화면 (F)">⛶</button></div>
+   <div class="tgroup"><button id="loopToggle" title="루프 (룰러에서 Shift+드래그 또는 I/O)" aria-pressed="false">⟲ 루프</button><select id="speed" title="재생 속도"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option></select><button id="baselineAB" title="편집 전 원본 룩과 비교" aria-pressed="false">A/B 원본</button><button id="fullscreen" title="영상만 전체화면 (F)">⛶</button></div>
   </div>
  </section>
  <div id="divRight" class="layout-divider vertical" role="separator" aria-label="인스펙터 폭" tabindex="0"></div>

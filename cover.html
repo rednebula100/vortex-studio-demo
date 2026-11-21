@@ -5,14 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Cover Studio · VORTEX</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23eca262'/%3E%3C/svg%3E">
-  <script type="module" crossorigin src="./assets/cover-B0RE-IMD.js"></script>
+  <script type="module" crossorigin src="./assets/cover-jKqoK59C.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
   <link rel="modulepreload" crossorigin href="./assets/store-BDe4yyhe.js">
-  <link rel="stylesheet" crossorigin href="./assets/cover-DTxmNoq4.css">
+  <link rel="stylesheet" crossorigin href="./assets/cover-CsS9zJCX.css">
 </head>
 <body class="cs">
+<section id="csHub" class="cs-hub">
+ <header class="cs-hub-head"><a class="cs-brand" href="./index.html" title="영상 편집기로">‹ VORTEX <i>//</i> COVER STUDIO</a><span class="cs-state">앨범 커버 라이브러리</span>
+  <div class="cs-actions"><input id="hubSearch" placeholder="문서 검색" aria-label="문서 검색"><select id="hubSort"><option value="time">최근 수정순</option><option value="name">이름순</option></select>
+   <button id="hubImport">JSON 문서 열기</button><button id="hubNew" class="primary">＋ 새 커버</button></div></header>
+ <div class="cs-hub-grid" id="hubGrid"></div>
+ <input type="file" id="hubJson" accept=".json" hidden>
+</section>
 <header class="cs-head">
- <a class="cs-brand" href="./index.html" title="영상 편집기로">‹ VORTEX <i>//</i> COVER STUDIO</a>
+ <button id="hubBtn" class="cs-brand-btn" title="커버 라이브러리로 (저장 후)">‹ 라이브러리</button><span class="cs-brand">COVER <i>//</i> STUDIO</span>
  <input id="docName" class="cs-name" maxlength="80" aria-label="문서 이름">
  <span id="saveState" class="cs-state">—</span>
  <div class="cs-actions">
@@ -60,6 +67,6 @@
  <label class="cs-row"><span>기준 이미지 (선택)</span><input type="file" id="newImage" accept="image/*"></label>
  <div class="cs-templates" id="templateList"></div></dialog>
 <dialog id="openDialog" class="cs-dialog"><header><h2>문서 열기</h2><form method="dialog"><button>닫기</button></form></header><div class="cs-docs" id="docList"></div></dialog>
-<div id="toast" class="cs-toast" hidden></div>
+<div id="toast" class="cs-toast" hidden></div>
 </body>
 </html>

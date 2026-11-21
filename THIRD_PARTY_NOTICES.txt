@@ -499,3 +499,10 @@ Anton, Bebas Neue, Archivo Black, Bowlby One, Titan One, Luckiest Guy, Bagel Fat
 Black Ops One, Metal Mania, New Rocker, Pirata One, UnifrakturMaguntia, Rubik Wet Paint, Rubik Puddles, Rubik Glitch,
 Permanent Marker (Apache License 2.0), Monoton, Cinzel Decorative, Marcellus — distributed via Google Fonts.
 Pretendard — SIL Open Font License 1.1, Copyright (c) 2021 Kil Hyung-jin (public/fonts/Pretendard-LICENSE.txt).
+
+================================================================================
+V8 effects
+
+gl-transitions (https://github.com/gl-transitions/gl-transitions) — each transition is MIT (223) or BSD (2) licensed by its author; author/license fields ship inside node_modules/gl-transitions/gl-transitions.json and in the bundled chunk.
+Kenney Particle Pack by Kenney Vleugels (kenney.nl) — CC0 1.0 Public Domain (public/fx/KENNEY-LICENSE.txt).
+webgl-noise simplex noise — Copyright (C) 2011 Ashima Arts, Stefan Gustavson — MIT License (embedded in src/fx/postfx.js).
